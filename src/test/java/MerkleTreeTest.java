@@ -13,19 +13,16 @@ public class MerkleTreeTest {
     public void testTree() {
         val tree = new MerkleTree();
 
-        System.out.println(tree);
-
         tree.appendLeaf(MerkleHash.create("dog"));
         tree.appendLeaf(MerkleHash.create("cat"));
         tree.appendLeaf(MerkleHash.create("mouse"));
         tree.appendLeaf(MerkleHash.create("horse"));
 
         val root = tree.buildTree();
-        System.out.println(root);
 
-        System.out.println(tree);
+        val rootHash = HexFormat.of().formatHex(root.getValue());
 
-        assertEquals("bd80e6bec9c2ef6158cf6a74f7f87531e94e0a824b9ba6db28c9a00ba418d452", HexFormat.of().formatHex(tree.getRoot().getHash().getValue()));
+        assertEquals("bd80e6bec9c2ef6158cf6a74f7f87531e94e0a824b9ba6db28c9a00ba418d452", rootHash);
     }
 
 }
