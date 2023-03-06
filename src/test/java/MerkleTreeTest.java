@@ -1,5 +1,5 @@
 import lombok.val;
-import org.cardanofoundation.merkle.MerkleHash;
+import org.cardanofoundation.merkle.util.Hashing;
 import org.cardanofoundation.merkle.MerkleTree;
 import org.junit.jupiter.api.Test;
 
@@ -13,10 +13,10 @@ public class MerkleTreeTest {
     public void testTree() {
         val tree = new MerkleTree();
 
-        tree.appendLeaf(MerkleHash.create("dog").getValue());
-        tree.appendLeaf(MerkleHash.create("cat").getValue());
-        tree.appendLeaf(MerkleHash.create("mouse").getValue());
-        tree.appendLeaf(MerkleHash.create("horse").getValue());
+        tree.appendLeaf(Hashing.sha2_256("dog"));
+        tree.appendLeaf(Hashing.sha2_256("cat"));
+        tree.appendLeaf(Hashing.sha2_256("mouse"));
+        tree.appendLeaf(Hashing.sha2_256("horse"));
 
         val root = tree.buildTree();
 

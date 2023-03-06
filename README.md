@@ -15,24 +15,24 @@ mvn clean install
 
 ## Example
 ```
-var tree = new MerkleTree();
+    val tree = new MerkleTree();
 
-tree.appendLeaf(MerkleHash.create("dog"));
-tree.appendLeaf(MerkleHash.create("cat"));
-tree.appendLeaf(MerkleHash.create("mouse"));
-tree.appendLeaf(MerkleHash.create("horse"));
+    tree.appendLeaf(Hashing.sha2_256("dog"));
+    tree.appendLeaf(Hashing.sha2_256("cat"));
+    tree.appendLeaf(Hashing.sha2_256("mouse"));
+    tree.appendLeaf(Hashing.sha2_256("horse"));
 
-var root = tree.buildTree();
-var rootHash = HexFormat.of().formatHex(root.getValue());
+    val root = tree.buildTree();
 
-System.out.println(rootHash);
-// bd80e6bec9c2ef6158cf6a74f7f87531e94e0a824b9ba6db28c9a00ba418d452 
+    val rootHash = HexFormat.of().formatHex(root);
+
+    assertEquals("bd80e6bec9c2ef6158cf6a74f7f87531e94e0a824b9ba6db28c9a00ba418d452", rootHash);
 ```
 
 ## TODO
 - more unit tests
 - java docs
 - publish to maven central 
-- another maven module doing serialisation
+- another maven module doing serialisation?
 - merkle proof handling
-- bloxbean library should have minimalistic interface for PlutusDataSerializer 
+- bloxbean library should have minimalistic interface for PlutusDataSerializer (change in bloxbean lib)

@@ -6,6 +6,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.cardanofoundation.merkle.util.Bytes;
+import org.cardanofoundation.merkle.util.Hashing;
 
 @EqualsAndHashCode
 @ToString
@@ -52,8 +54,8 @@ public class MerkleNode {
         if (this.rightNode == null) {
             this.hash = this.leftNode.hash;
         } else {
-            this.hash = MerkleHash.create(MerkleHash.concatenate(
-                    this.leftNode.hash, this.rightNode.hash)).getValue();
+            this.hash = Hashing.sha2_256(Bytes.concatenate(
+                    this.leftNode.hash, this.rightNode.hash));
         }
 
         if (this.parent != null) {
