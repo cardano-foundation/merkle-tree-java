@@ -1,17 +1,35 @@
 package org.cardanofoundation.merkle.core;
 
-import org.cardanofoundation.merkle.util.Bytes;
-import org.cardanofoundation.merkle.util.Hashing;
-
 public interface MerkleTree {
 
     default byte[] rootHash() {
-        return switch (this) {
-            case MerkleEmpty me -> new byte [] { };
-            case MerkleLeaf ml -> ml.getHash();
-            case MerkleNode mn -> mn.getHash();
-            default -> throw new IllegalStateException("Unexpected value.");
-        };
+        if (this instanceof MerkleEmpty) {
+            return new byte [] { };
+        }
+
+        if (this instanceof MerkleLeaf ml) {
+            return ml.getHash();
+        }
+        if (this instanceof MerkleNode mn) {
+            return mn.getHash();
+        }
+
+        throw new IllegalStateException("Unexpected value:" + this.getClass().getName());
+    }
+
+    default int size() {
+        if (this instanceof MerkleEmpty) {
+            return 0;
+        }
+
+        if (this instanceof MerkleLeaf ml) {
+            return 1;
+        }
+        if (this instanceof MerkleNode mn) {
+            return mn.getLeft().size() + mn.getRight().size();
+        }
+
+        throw new IllegalStateException("Unexpected value:" + this.getClass().getName());
     }
 
 }
