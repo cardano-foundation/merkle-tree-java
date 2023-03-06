@@ -1,5 +1,7 @@
 # Merkle Tree implementation in Java
 
+This is **incubating** project to implement Plutus compatible Merkle Tree implementation in java. 
+
 [![License](https://img.shields.io:/github/license/cardano-foundation/hydra-java-client?label=license)](https://github.com/cardano-foundation/hydra-java-client/blob/master/LICENSE)
 
 ## Requirements

@@ -5,6 +5,7 @@ import com.bloxbean.cardano.client.plutus.annotation.PlutusField;
 import lombok.Getter;
 import lombok.val;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.HexFormat;
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.List;
 public class MerkleTree {
 
     @PlutusField
+    @Nullable
     private MerkleNode root;
 
     @PlutusField
