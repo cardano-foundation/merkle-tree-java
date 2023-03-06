@@ -1,5 +1,8 @@
 package org.cardanofoundation.merkle.core;
 
+import org.cardanofoundation.merkle.util.Bytes;
+import org.cardanofoundation.merkle.util.Hashing;
+
 public interface MerkleTree {
 
     default byte[] rootHash() {

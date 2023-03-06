@@ -4,6 +4,7 @@ import org.cardanofoundation.merkle.core.MerkleTreeBuilder;
 import org.cardanofoundation.merkle.util.Hashing;
 import org.junit.jupiter.api.Test;
 
+import java.nio.charset.StandardCharsets;
 import java.util.HexFormat;
 import java.util.List;
 
@@ -20,12 +21,12 @@ public class MerkleTreeTest {
 
     @Test
     public void testTree1() {
-        val mt = MerkleTreeBuilder.create(List.of(
-                Hashing.sha2_256("dog"),
-                Hashing.sha2_256("cat"),
-                Hashing.sha2_256("mouse"),
-                Hashing.sha2_256("horse")
-        ));
+        val mt = MerkleTreeBuilder.createFromItems(List.of(
+                "dog",
+                "cat",
+                "mouse",
+                "horse"
+        ), item -> Hashing.sha2_256(item.getBytes(StandardCharsets.UTF_8)));
 
         val rootHash = HexFormat.of().formatHex(mt.rootHash());
 
@@ -34,7 +35,7 @@ public class MerkleTreeTest {
 
     @Test
     public void testTree2() {
-        val mt = MerkleTreeBuilder.create(List.of(
+        val mt = MerkleTreeBuilder.createFromHashes(List.of(
                 Hashing.sha2_256("dog"),
                 Hashing.sha2_256("cat"),
                 Hashing.sha2_256("mouse"),
@@ -52,7 +53,7 @@ public class MerkleTreeTest {
 
     @Test
     public void testTree3() {
-        val mt = MerkleTreeBuilder.create(List.of(
+        val mt = MerkleTreeBuilder.createFromHashes(List.of(
                 Hashing.sha2_256("dog"),
                 Hashing.sha2_256("cat"),
                 Hashing.sha2_256("mouse"),
