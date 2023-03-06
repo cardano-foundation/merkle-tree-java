@@ -19,7 +19,6 @@
         <lombok.version>1.18.24</lombok.version>
         <junit-jupiter-engine.version>5.9.2</junit-jupiter-engine.version>
         <cardano.client.lib.version>0.4.3</cardano.client.lib.version>
-        <spotbugs.version>4.7.3</spotbugs.version>
         <git.repository>cardano-foundation/hydra-java-client</git.repository>
     </properties>
 
@@ -35,12 +34,6 @@
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
             <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>com.github.spotbugs</groupId>
-            <artifactId>spotbugs-annotations</artifactId>
-            <version>${spotbugs.version}</version>
         </dependency>
 
         <dependency>
@@ -79,7 +72,7 @@
                 <version>${maven-compiler-plugin.version}</version>
                 <configuration>
                     <source>18</source>
-                    <target>17</target>
+                    <target>18</target>
                     <compilerArgs>--enable-preview</compilerArgs>
                 </configuration>
             </plugin>
