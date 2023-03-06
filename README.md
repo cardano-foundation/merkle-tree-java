@@ -17,18 +17,24 @@ mvn clean install
 
 ## Example
 ```
-    val tree = new MerkleTree();
+val mt = MerkleTreeBuilder.createFromHashes(List.of(
+        Hashing.sha2_256("dog"),
+        Hashing.sha2_256("cat"),
+        Hashing.sha2_256("mouse"),
+        Hashing.sha2_256("horse"),
+        Hashing.sha2_256("elephant"),
+        Hashing.sha2_256("wolf"),
+        Hashing.sha2_256("gopher"),
+        Hashing.sha2_256("squirrel"),
+        Hashing.sha2_256("badger"),
+        Hashing.sha2_256("bobcat"),
+        Hashing.sha2_256("owl"),
+        Hashing.sha2_256("bird")
+));
 
-    tree.appendLeaf(Hashing.sha2_256("dog"));
-    tree.appendLeaf(Hashing.sha2_256("cat"));
-    tree.appendLeaf(Hashing.sha2_256("mouse"));
-    tree.appendLeaf(Hashing.sha2_256("horse"));
+val rootHash = HexFormat.of().formatHex(mt.rootHash());
 
-    val root = tree.buildTree();
-
-    val rootHash = HexFormat.of().formatHex(root);
-
-    assertEquals("bd80e6bec9c2ef6158cf6a74f7f87531e94e0a824b9ba6db28c9a00ba418d452", rootHash);
+assertEquals("fc84e654aa6f5ca9c72adab1ab2c157298fdefd658f65d7d2231009c4d763ef0", rootHash);
 ```
 
 ## TODO
