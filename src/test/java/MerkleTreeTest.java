@@ -4,10 +4,12 @@ import org.cardanofoundation.merkle.core.MerkleTreeBuilder;
 import org.cardanofoundation.merkle.util.Hashing;
 import org.junit.jupiter.api.Test;
 
-import java.nio.charset.StandardCharsets;
+import java.security.SecureRandom;
+import java.util.HashSet;
 import java.util.HexFormat;
 import java.util.List;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class MerkleTreeTest {
@@ -26,7 +28,7 @@ public class MerkleTreeTest {
                 "cat",
                 "mouse",
                 "horse"
-        ), item -> Hashing.sha2_256(item.getBytes(StandardCharsets.UTF_8)));
+        ), item -> Hashing.sha2_256(item.getBytes(UTF_8)));
 
         val rootHash = HexFormat.of().formatHex(mt.rootHash());
 
@@ -76,6 +78,31 @@ public class MerkleTreeTest {
 
 //        // 102bd9546ccaca971a3929212fc9868dc2af5bbd5435610fa2d9a359340bd6a8
 //        assertEquals("17d097548161ff8afa8b6d6f3c6e38d938a0381c9941f5abdeb3a7810b904e01", rootHash);
+    }
+
+    @Test
+    public void testTree4() {
+        var items = new HashSet<String>();
+
+        val sr = new SecureRandom();
+
+        for (int i = 0; i < 100_000; i++) {
+            items.add(String.valueOf(sr.nextInt()));
+        }
+
+        var its = items.stream().toList();
+
+        System.out.println("Size:" + its.size());
+
+        long startTime = System.currentTimeMillis();
+
+        val mt = MerkleTreeBuilder.createFromItems(its, item -> Hashing.sha2_256(item.getBytes(UTF_8)));
+
+        long endTime = System.currentTimeMillis();
+
+        System.out.println("That took " + (endTime - startTime) + " milliseconds");
+
+        assertEquals(items.size(), mt.size());
     }
 
 }

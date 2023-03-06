@@ -2,6 +2,7 @@ package org.cardanofoundation.merkle.core;
 
 import lombok.val;
 import org.cardanofoundation.merkle.util.Hashing;
+import org.openjdk.jmh.annotations.Benchmark;
 
 import java.util.List;
 import java.util.function.Function;
@@ -17,6 +18,7 @@ public class MerkleTreeBuilder {
         return createFromHashes(items.stream().map(serialiserFn::apply).collect(Collectors.toList()));
     }
 
+    // TODO this can look nicer when JDK supports pattern matching on lists
     private static MerkleTree doFrom(List<byte[]> items, int len) {
         if (items.isEmpty()) {
             return MerkleEmpty.EMPTY;

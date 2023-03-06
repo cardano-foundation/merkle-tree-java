@@ -19,6 +19,7 @@
         <lombok.version>1.18.24</lombok.version>
         <junit-jupiter-engine.version>5.9.2</junit-jupiter-engine.version>
         <cardano.client.lib.version>0.4.3</cardano.client.lib.version>
+        <java.faker.version>1.0.2</java.faker.version>
         <git.repository>cardano-foundation/hydra-java-client</git.repository>
     </properties>
 
@@ -30,24 +31,25 @@
         </dependency>
 
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>${lombok.version}</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
             <groupId>com.bloxbean.cardano</groupId>
             <artifactId>cardano-client-lib</artifactId>
             <version>${cardano.client.lib.version}</version>
         </dependency>
 
         <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+          <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
             <version>${junit-jupiter-engine.version}</version>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>

@@ -2,6 +2,7 @@ package org.cardanofoundation.merkle.core;
 
 public interface MerkleTree {
 
+    // TODO this can look nicer with java switch statement from JDK 18
     default byte[] rootHash() {
         if (this instanceof MerkleEmpty) {
             return new byte [] { };
@@ -17,6 +18,7 @@ public interface MerkleTree {
         throw new IllegalStateException("Unexpected value:" + this.getClass().getName());
     }
 
+    // TODO this can look nicer with java switch statement from JDK 18
     default int size() {
         if (this instanceof MerkleEmpty) {
             return 0;
