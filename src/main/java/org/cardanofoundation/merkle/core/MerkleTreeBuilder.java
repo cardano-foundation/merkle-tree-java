@@ -2,7 +2,6 @@ package org.cardanofoundation.merkle.core;
 
 import lombok.val;
 import org.cardanofoundation.merkle.util.Hashing;
-import org.openjdk.jmh.annotations.Benchmark;
 
 import java.util.List;
 import java.util.function.Function;
