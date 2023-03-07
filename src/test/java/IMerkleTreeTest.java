@@ -1,6 +1,6 @@
 import lombok.val;
 import org.cardanofoundation.merkle.core.MerkleLeaf;
-import org.cardanofoundation.merkle.core.MerkleTreeBuilder;
+import org.cardanofoundation.merkle.core.MerkleTree;
 import org.cardanofoundation.merkle.util.Hashing;
 import org.junit.jupiter.api.Test;
 
@@ -12,7 +12,7 @@ import java.util.List;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class MerkleTreeTest {
+public class IMerkleTreeTest {
 
     @Test
     public void testRootHash1() {
@@ -23,7 +23,7 @@ public class MerkleTreeTest {
 
     @Test
     public void testTree1() {
-        val mt = MerkleTreeBuilder.createFromItems(List.of(
+        val mt = MerkleTree.createFromItems(List.of(
                 "dog",
                 "cat",
                 "mouse",
@@ -37,7 +37,7 @@ public class MerkleTreeTest {
 
     @Test
     public void testTree2() {
-        val mt = MerkleTreeBuilder.createFromHashes(List.of(
+        val mt = MerkleTree.createFromHashes(List.of(
                 Hashing.sha2_256("dog"),
                 Hashing.sha2_256("cat"),
                 Hashing.sha2_256("mouse"),
@@ -69,7 +69,7 @@ public class MerkleTreeTest {
                 Hashing.sha2_256("owl"),
                 Hashing.sha2_256("bird")
         );
-        val mt = MerkleTreeBuilder.createFromHashes(items);
+        val mt = MerkleTree.createFromHashes(items);
 
         val rootHash = HexFormat.of().formatHex(mt.rootHash());
 
@@ -90,21 +90,21 @@ public class MerkleTreeTest {
             items.add(String.valueOf(sr.nextInt()));
         }
 
-        var its = items.stream()
+        val hashedItems = items.stream()
                 .map(str -> Hashing.sha2_256(str.getBytes(UTF_8)))
             .toList();
 
-        System.out.println("Size:" + its.size());
+        val startTime = System.currentTimeMillis();
 
-        long startTime = System.currentTimeMillis();
+        val mt = MerkleTree.createFromHashes(hashedItems);
 
-        val mt = MerkleTreeBuilder.createFromHashes(its);
+        val endTime = System.currentTimeMillis();
 
-        long endTime = System.currentTimeMillis();
+        val time = (endTime - startTime);
 
-        System.out.println("That took " + (endTime - startTime) + " milliseconds");
+        System.out.println("That took " + time + " milliseconds on average for.");
 
-        assertEquals(items.size(), mt.size());
+        assertEquals(hashedItems.size(), mt.size());
     }
 
 }

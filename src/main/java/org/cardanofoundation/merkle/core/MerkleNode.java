@@ -10,15 +10,15 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @Constr(alternative = 2)
-public class MerkleNode implements MerkleTree {
+public class MerkleNode implements IMerkleTree {
 
     @PlutusField
     private byte[] hash;
 
     @PlutusField
-    private MerkleTree left;
+    private IMerkleTree left;
 
     @PlutusField
-    private MerkleTree right;
+    private IMerkleTree right;
 
 }
