@@ -17,7 +17,7 @@ mvn clean install
 
 ## Example
 ```
-val mt = MerkleTreeBuilder.createFromHashes(List.of(
+var items = List.of(
         Hashing.sha2_256("dog"),
         Hashing.sha2_256("cat"),
         Hashing.sha2_256("mouse"),
@@ -30,15 +30,17 @@ val mt = MerkleTreeBuilder.createFromHashes(List.of(
         Hashing.sha2_256("bobcat"),
         Hashing.sha2_256("owl"),
         Hashing.sha2_256("bird")
-));
+);
+var mt = MerkleTree.createFromHashes(items);
 
-val rootHash = HexFormat.of().formatHex(mt.rootHash());
-
-assertEquals("fc84e654aa6f5ca9c72adab1ab2c157298fdefd658f65d7d2231009c4d763ef0", rootHash);
+var rootHash = HexFormat.of().formatHex(mt.rootHash());
+System.out.println(rootHash);
+// prints out
+//fc84e654aa6f5ca9c72adab1ab2c157298fdefd658f65d7d2231009c4d763ef0
 ```
 
 ## TODO
 - more unit tests
 - java docs
-- publish to maven central 
-- bloxbean library could have minimalistic library, something like: cardano-client-serialization.jar
+- publish to maven central
+- bloxbean library could have minimalistic library, something like: cardano-client-serialization module
