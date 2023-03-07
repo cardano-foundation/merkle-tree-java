@@ -9,7 +9,7 @@ import lombok.*;
 @Getter
 @Setter
 @AllArgsConstructor
-@Constr
+@Constr(alternative = 2)
 public class MerkleNode implements MerkleTree {
 
     @PlutusField

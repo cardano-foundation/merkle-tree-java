@@ -90,13 +90,15 @@ public class MerkleTreeTest {
             items.add(String.valueOf(sr.nextInt()));
         }
 
-        var its = items.stream().toList();
+        var its = items.stream()
+                .map(str -> Hashing.sha2_256(str.getBytes(UTF_8)))
+            .toList();
 
         System.out.println("Size:" + its.size());
 
         long startTime = System.currentTimeMillis();
 
-        val mt = MerkleTreeBuilder.createFromItems(its, item -> Hashing.sha2_256(item.getBytes(UTF_8)));
+        val mt = MerkleTreeBuilder.createFromHashes(its);
 
         long endTime = System.currentTimeMillis();
 

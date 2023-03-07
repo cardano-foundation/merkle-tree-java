@@ -7,7 +7,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-@Constr
+@Constr(alternative = 1)
 public class MerkleLeaf implements MerkleTree {
 
     @PlutusField
