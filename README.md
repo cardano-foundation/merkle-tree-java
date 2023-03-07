@@ -1,8 +1,8 @@
 # Merkle Tree implementation in Java
 
-This is **incubating** project to implement Plutus compatible Merkle Tree implementation in java. 
+This is **incubating** project to implement Plutus compatible Merkle Tree implementation in java, which is serialisable to Plutus on chain implementation.
 
-[![License](https://img.shields.io:/github/license/cardano-foundation/hydra-java-client?label=license)](https://github.com/cardano-foundation/hydra-java-client/blob/master/LICENSE)
+[![License](https://img.shields.io:/github/license/cardano-foundation/merkle-tree-java?label=license)](https://github.com/cardano-foundation/merkle-tree-java/blob/master/LICENSE)
 
 ## Requirements
 - JDK17
@@ -41,6 +41,4 @@ assertEquals("fc84e654aa6f5ca9c72adab1ab2c157298fdefd658f65d7d2231009c4d763ef0",
 - more unit tests
 - java docs
 - publish to maven central 
-- another maven module doing serialisation?
-- merkle proof handling
-- bloxbean library should have minimalistic interface for PlutusDataSerializer (change in bloxbean lib)
+- bloxbean library could have minimalistic library, something like: cardano-client-serialization.jar

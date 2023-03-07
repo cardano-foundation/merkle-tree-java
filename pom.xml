@@ -32,7 +32,7 @@
 
         <dependency>
             <groupId>com.bloxbean.cardano</groupId>
-            <artifactId>cardano-client-lib</artifactId>
+            <artifactId>cardano-client-core</artifactId>
             <version>${cardano.client.lib.version}</version>
         </dependency>
 
