@@ -1,12 +1,13 @@
-# Merkle Tree implementation in Java
+# Merkle Tree implementation in Java / Aiken
 
-This is **incubating** project to implement Plutus compatible Merkle Tree implementation in java, which is serialisable to Plutus on chain implementation.
+This is an **incubating** project to implement Plutus compatible Merkle Tree implementation in java and compatible contract equivalent written in Aiken (https://aiken-lang.org/).
 
 [![License](https://img.shields.io:/github/license/cardano-foundation/merkle-tree-java?label=license)](https://github.com/cardano-foundation/merkle-tree-java/blob/master/LICENSE)
 
 ## Requirements
 - JDK17
-- maven17 
+- maven17
+- Aiken
 
 ## Building
 ```
@@ -42,5 +43,5 @@ System.out.println(rootHash);
 ## TODO
 - more unit tests
 - java docs
-- publish to maven central
-- bloxbean library could have minimalistic library, something like: cardano-client-serialization module
+- publish release to maven central 
+- bloxbean library could have minimalistic library, something like: cardano-client-serialization.jar
