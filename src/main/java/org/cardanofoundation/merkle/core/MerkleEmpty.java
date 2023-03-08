@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 
 @Constr
 @AllArgsConstructor
-public class MerkleEmpty implements IMerkleTree {
+public class MerkleEmpty implements MerkleElement {
 
     public final static MerkleEmpty EMPTY = new MerkleEmpty();
 

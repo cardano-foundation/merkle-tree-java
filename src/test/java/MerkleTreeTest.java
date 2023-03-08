@@ -12,13 +12,13 @@ import java.util.List;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class IMerkleTreeTest {
+public class MerkleTreeTest {
 
     @Test
     public void testRootHash1() {
         val mt = new MerkleLeaf(Hashing.sha2_256("dog"));
 
-        assertEquals("cd6357efdd966de8c0cb2f876cc89ec74ce35f0968e11743987084bd42fb8944", HexFormat.of().formatHex(mt.rootHash()));
+        assertEquals("cd6357efdd966de8c0cb2f876cc89ec74ce35f0968e11743987084bd42fb8944", HexFormat.of().formatHex(mt.elementHash()));
     }
 
     @Test
@@ -30,7 +30,7 @@ public class IMerkleTreeTest {
                 "horse"
         ), item -> Hashing.sha2_256(item.getBytes(UTF_8)));
 
-        val rootHash = HexFormat.of().formatHex(mt.rootHash());
+        val rootHash = HexFormat.of().formatHex(mt.elementHash());
 
         assertEquals("bd80e6bec9c2ef6158cf6a74f7f87531e94e0a824b9ba6db28c9a00ba418d452", rootHash);
     }
@@ -45,7 +45,7 @@ public class IMerkleTreeTest {
                 Hashing.sha2_256("elephant")
         ));
 
-        val rootHash = HexFormat.of().formatHex(mt.rootHash());
+        val rootHash = HexFormat.of().formatHex(mt.elementHash());
 
         assertEquals("00e3bd2c9df3e934f51d8bc96b6d985aaab5bf1624a7fcdb90a8eba592417531", rootHash);
 
@@ -71,7 +71,7 @@ public class IMerkleTreeTest {
         );
         val mt = MerkleTree.createFromHashes(items);
 
-        val rootHash = HexFormat.of().formatHex(mt.rootHash());
+        val rootHash = HexFormat.of().formatHex(mt.elementHash());
 
         assertEquals("fc84e654aa6f5ca9c72adab1ab2c157298fdefd658f65d7d2231009c4d763ef0", rootHash);
         assertEquals(items.size(), mt.size());

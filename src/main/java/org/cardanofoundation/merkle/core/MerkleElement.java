@@ -1,9 +1,9 @@
 package org.cardanofoundation.merkle.core;
 
-public interface IMerkleTree {
+public interface MerkleElement {
 
     // TODO this can look nicer with java switch statement from JDK 18
-    default byte[] rootHash() {
+    default byte[] elementHash() {
         if (this instanceof MerkleEmpty) {
             return new byte [] { };
         }
