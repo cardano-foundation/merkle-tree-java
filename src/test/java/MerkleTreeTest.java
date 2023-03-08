@@ -69,12 +69,12 @@ public class MerkleTreeTest {
                 Hashing.sha2_256("owl"),
                 Hashing.sha2_256("bird")
         );
-        val mt = MerkleTree.createFromHashes(items);
+        val mtRoot = MerkleTree.createFromHashes(items);
 
-        val rootHash = HexFormat.of().formatHex(mt.elementHash());
+        val rootHash = HexFormat.of().formatHex(mtRoot.elementHash());
 
         assertEquals("fc84e654aa6f5ca9c72adab1ab2c157298fdefd658f65d7d2231009c4d763ef0", rootHash);
-        assertEquals(items.size(), mt.size());
+        assertEquals(items.size(), mtRoot.size());
 
 //        // 102bd9546ccaca971a3929212fc9868dc2af5bbd5435610fa2d9a359340bd6a8
 //        assertEquals("17d097548161ff8afa8b6d6f3c6e38d938a0381c9941f5abdeb3a7810b904e01", rootHash);

@@ -25,6 +25,8 @@ Offchain part of the Merkle Tree is written in Java and on-chain part is written
 If you are looking for Plutus / Haskell implementation of Merkle Tree we recommend to look at: Hydra's implementation,
 which can be accessed at: https://github.com/input-output-hk/hydra/blame/master/plutus-merkle-tree/src/Plutus/MerkleTree.hs
 
+An alternative implementation of Merkle Tree with original item and hash is located here: https://github.com/aiken-lang/trees/blob/main/lib/aiken/trees/mt.ak
+
 ## Requirements
 - JDK17
 - maven17
@@ -79,12 +81,12 @@ var items = List.of(
         Hashing.sha2_256("owl"),
         Hashing.sha2_256("bird")
 );
-var mt = MerkleTree.createFromHashes(items);
+var mt_root = MerkleTree.createFromHashes(items);
 
-var rootHash = HexFormat.of().formatHex(mt.elementHash());
+var rootHash = HexFormat.of().formatHex(mt_root.elementHash());
 
 assertEquals("fc84e654aa6f5ca9c72adab1ab2c157298fdefd658f65d7d2231009c4d763ef0", rootHash);
-assertEquals(items.size(), mt.size());
+assertEquals(items.size(), mt_root.size());
 System.out.println(rootHash);
 
 // prints out
@@ -95,4 +97,5 @@ System.out.println(rootHash);
 - more unit tests
 - java docs
 - publish release to maven central 
+- CI pipeline for Java and Aiken 
 - bloxbean library could have minimalistic library, something like: cardano-client-serialization.jar
