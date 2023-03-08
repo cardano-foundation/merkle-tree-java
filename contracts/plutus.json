@@ -1,0 +1,9 @@
+{
+  "preamble": {
+    "title": "cf/trees",
+    "description": "Merkle Tree in Aiken.",
+    "version": "0.0.1",
+    "plutusVersion": "v2"
+  },
+  "validators": []
+}

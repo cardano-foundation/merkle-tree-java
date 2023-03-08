@@ -455,7 +455,7 @@ test from_5() {
   } == mt
 }
 
-fn do_from_hashes_list(
+// fn do_from_hashes_list(
 //   items: List<Hash<Sha2_256, a>>,
 //   len: Int,
 // ) -> MerkleTree<a> {

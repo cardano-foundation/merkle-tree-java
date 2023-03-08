@@ -9,12 +9,38 @@ This is an **incubating** project to implement Plutus compatible Merkle Tree imp
 - maven17
 - Aiken
 
-## Building
-```
+## Cloning
 git clone https://github.com/cardano-foundation/merkle-tree-java
+
+## Java Building
+Java MerkleTree is located in `src/main/java`
+```
 cd merkle-tree-java
 mvn clean install
 ```
+
+## Contracts Building
+Cardano's Aiken on chain contracts are located in `contracts` directory.
+
+```
+cd aiken
+aiken check
+```
+
+Aiken check should invoke all tests. Since Aiken doesn't support libraries which depend on std lib, typically for now
+you have to copy and paste Aiken code into your smart contract / Cardano validator project.
+
+Notice that trying to invoke:
+```
+aiken build
+```
+command will give a warning with the following message:
+```
+⚠ You do not have any validators to build!
+```
+
+because there are no on-chain validators in this contract. Even though plutus.json will be generated, it will not have
+compiled onchain code and endpoint definitions.
 
 ## Example
 ```
