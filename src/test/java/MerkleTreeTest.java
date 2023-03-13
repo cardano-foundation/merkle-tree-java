@@ -1,4 +1,5 @@
 import lombok.val;
+import org.cardanofoundation.merkle.core.MerkleEmpty;
 import org.cardanofoundation.merkle.core.MerkleLeaf;
 import org.cardanofoundation.merkle.core.MerkleTree;
 import org.cardanofoundation.merkle.util.Hashing;
@@ -11,8 +12,31 @@ import java.util.List;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MerkleTreeTest {
+
+
+    @Test
+    public void testEmptyTree1() {
+        val mt = MerkleTree.createFromHashes(List.of());
+
+        assertEquals("", HexFormat.of().formatHex(mt.elementHash()));
+    }
+
+    @Test
+    public void testEmptyTree2() {
+        val mt = MerkleTree.createFromHashes(List.of());
+
+        assertTrue(mt instanceof MerkleEmpty);
+    }
+
+    @Test
+    public void testEmptyTree3() {
+        val mt = new MerkleEmpty();
+
+        assertEquals("", HexFormat.of().formatHex(mt.elementHash()));
+    }
 
     @Test
     public void testRootHash1() {

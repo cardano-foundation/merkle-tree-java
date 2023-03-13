@@ -42,7 +42,7 @@ test element_hash_1() {
   element_hash(mt) == node_hash
 }
 
-test element_hash_3() {
+test element_hash_2() {
   let dog = @"dog"
   let cat = @"cat"
   let mouse = @"mouse"
@@ -65,7 +65,7 @@ test element_hash_3() {
   rh == element_hash
 }
 
-test element_hash_2() {
+test element_hash_3() {
   let items = []
   let serialise_fn = create_string_item_serialise_fn()
   let mt = from_list(items, serialise_fn)

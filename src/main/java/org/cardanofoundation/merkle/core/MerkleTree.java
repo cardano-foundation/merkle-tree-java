@@ -5,7 +5,6 @@ import org.cardanofoundation.merkle.util.Hashing;
 
 import java.util.List;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 public class MerkleTree {
 
@@ -14,7 +13,8 @@ public class MerkleTree {
     }
 
     public static <T> MerkleElement createFromItems(List<T> items, Function<T, byte[]> serialiserFn) {
-        return createFromHashes(items.stream().map(serialiserFn::apply).collect(Collectors.toList()));
+        return createFromHashes(items.stream().map(serialiserFn::apply)
+                .toList());
     }
 
     // TODO this can look nicer when JDK supports pattern matching on lists
