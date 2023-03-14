@@ -97,5 +97,4 @@ System.out.println(rootHash);
 - more unit tests
 - java docs
 - publish release to maven central 
-- CI pipeline for Java and Aiken 
-- bloxbean library could have minimalistic library, something like: cardano-client-serialization.jar
+- CI pipeline for Java and Aiken
