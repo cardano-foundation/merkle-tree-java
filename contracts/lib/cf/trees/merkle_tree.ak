@@ -674,13 +674,7 @@ pub fn member_from_tree(
   item: a,
   serialise_fn: fn(a) -> ByteArray,
 ) -> Bool {
-  let proof: Option<Proof<a>> = get_proof(tree, item, serialise_fn)
-  let rh = element_hash(tree)
-
-  when proof is {
-    Some(p) -> member(item, rh, p, serialise_fn)
-    None -> False
-  }
+  get_proof(tree, item, serialise_fn) |> option.is_some
 }
 
 test member_from_tree_1() {
