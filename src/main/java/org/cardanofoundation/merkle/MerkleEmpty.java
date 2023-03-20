@@ -1,4 +1,4 @@
-package org.cardanofoundation.merkle.core;
+package org.cardanofoundation.merkle;
 
 import com.bloxbean.cardano.client.plutus.annotation.Constr;
 import lombok.AllArgsConstructor;

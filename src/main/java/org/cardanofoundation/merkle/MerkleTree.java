@@ -1,4 +1,4 @@
-package org.cardanofoundation.merkle.core;
+package org.cardanofoundation.merkle;
 
 import lombok.val;
 import org.cardanofoundation.util.Hashing;

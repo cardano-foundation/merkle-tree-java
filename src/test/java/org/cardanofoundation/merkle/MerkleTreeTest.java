@@ -1,7 +1,9 @@
+package org.cardanofoundation.merkle;
+
 import lombok.val;
-import org.cardanofoundation.merkle.core.MerkleEmpty;
-import org.cardanofoundation.merkle.core.MerkleLeaf;
-import org.cardanofoundation.merkle.core.MerkleTree;
+import org.cardanofoundation.merkle.MerkleEmpty;
+import org.cardanofoundation.merkle.MerkleLeaf;
+import org.cardanofoundation.merkle.MerkleTree;
 import org.cardanofoundation.util.Hashing;
 import org.junit.jupiter.api.Test;
 
