@@ -1,7 +1,7 @@
 package org.cardanofoundation.merkle.core;
 
 import lombok.val;
-import org.cardanofoundation.merkle.util.Hashing;
+import org.cardanofoundation.util.Hashing;
 
 import java.util.List;
 import java.util.function.Function;

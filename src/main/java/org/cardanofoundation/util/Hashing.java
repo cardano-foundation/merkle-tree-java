@@ -1,4 +1,4 @@
-package org.cardanofoundation.merkle.util;
+package org.cardanofoundation.util;
 
 import lombok.val;
 

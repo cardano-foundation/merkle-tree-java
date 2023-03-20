@@ -2,7 +2,7 @@ import lombok.val;
 import org.cardanofoundation.merkle.core.MerkleEmpty;
 import org.cardanofoundation.merkle.core.MerkleLeaf;
 import org.cardanofoundation.merkle.core.MerkleTree;
-import org.cardanofoundation.merkle.util.Hashing;
+import org.cardanofoundation.util.Hashing;
 import org.junit.jupiter.api.Test;
 
 import java.security.SecureRandom;
@@ -15,7 +15,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MerkleTreeTest {
-
 
     @Test
     public void testEmptyTree1() {

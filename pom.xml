@@ -17,6 +17,7 @@
         <maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
         <slf4j.version>2.0.6</slf4j.version>
         <lombok.version>1.18.24</lombok.version>
+
         <junit-jupiter-engine.version>5.9.2</junit-jupiter-engine.version>
         <cardano.client.lib.version>0.4.3</cardano.client.lib.version>
         <java.faker.version>1.0.2</java.faker.version>
@@ -43,7 +44,13 @@
             <scope>provided</scope>
         </dependency>
 
-          <dependency>
+        <dependency>
+            <groupId>io.vavr</groupId>
+            <artifactId>vavr</artifactId>
+            <version>0.10.4</version>
+        </dependency>
+
+         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
             <version>${junit-jupiter-engine.version}</version>
