@@ -22,12 +22,12 @@ public class HashedListTest {
 
     @Test
     public void testOneItem() {
-        assertEquals("c333744e9953ea4990e00a00806a596f6b1a0fc39a8fdf2e9e9bfa622fb58099", encodeHexString(HashedList.create(List.of("dog"), createHasher()).hash()));
+        assertEquals("778a58564343a3eb1b4f22abde3ee16a1846ed730365d32334c5b64338c35a2c", encodeHexString(HashedList.create(List.of("dog"), createHasher()).hash()));
     }
 
     @Test
     public void testTwoItems() {
-        assertEquals("9e0fa7d9199bb3f606f53c2ccb548fc1e0181eccb913eeb645eaee7c1b00c0be", encodeHexString(HashedList.create(List.of("dog", "cat"), createHasher()).hash()));
+        assertEquals("abc48c555c2e7fb968c02bf0a6e6854b7239b3ede1d5745152cc656e430ae845", encodeHexString(HashedList.create(List.of("dog", "cat"), createHasher()).hash()));
     }
 
 }

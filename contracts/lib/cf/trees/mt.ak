@@ -348,7 +348,6 @@ pub fn from_list(
 }
 
 test from_1() {
-  let _a = -1
   let items = []
   let serialise_fn = create_string_item_serialise_fn()
   let mt = from_list(items, serialise_fn)
