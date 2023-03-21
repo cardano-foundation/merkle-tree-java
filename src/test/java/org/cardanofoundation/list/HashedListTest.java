@@ -30,4 +30,9 @@ public class HashedListTest {
         assertEquals("abc48c555c2e7fb968c02bf0a6e6854b7239b3ede1d5745152cc656e430ae845", encodeHexString(HashedList.create(List.of("dog", "cat"), createHasher()).hash()));
     }
 
+    @Test
+    public void testFourItems() {
+        assertEquals("f3b80d721103a0a321bc3b88a946c9c9fc86f5721b61cf012d731b6a1d9efe3b", encodeHexString(HashedList.create(List.of("dog", "cat", "horse", "mouse"), createHasher()).hash()));
+    }
+
 }
