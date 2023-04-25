@@ -1,7 +1,5 @@
 # Merkle Tree implementation in Java / Aiken
 
-[![Discord](https://dcbadge.vercel.app/api/server/KQJWrYkC)](https://discord.gg/KQJWrYkC)
-
 This is an **incubating** project to implement Plutus compatible Merkle Tree implementation in java and compatible contract equivalent written in Aiken (https://aiken-lang.org/).
 
 [![License](https://img.shields.io:/github/license/cardano-foundation/merkle-tree-java?label=license)](https://github.com/cardano-foundation/merkle-tree-java/blob/master/LICENSE)
