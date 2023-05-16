@@ -10,15 +10,11 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @Constr(alternative = 2)
-public class MerkleNode implements MerkleElement {
+public class MerkleNode<T> implements MerkleElement<T> {
 
-    @PlutusField
-    private byte[] hash;
+  @PlutusField private byte[] hash;
 
-    @PlutusField
-    private MerkleElement left;
+  @PlutusField private MerkleElement<T> left;
 
-    @PlutusField
-    private MerkleElement right;
-
+  @PlutusField private MerkleElement<T> right;
 }
