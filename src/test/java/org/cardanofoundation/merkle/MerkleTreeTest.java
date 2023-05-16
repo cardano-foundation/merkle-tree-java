@@ -1,132 +1,227 @@
 package org.cardanofoundation.merkle;
 
-import lombok.val;
-import org.cardanofoundation.util.Hashing;
-import org.junit.jupiter.api.Test;
-
-import java.security.SecureRandom;
-import java.util.HashSet;
-import java.util.HexFormat;
-import java.util.List;
-
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import io.vavr.collection.List;
+import java.util.*;
+import java.util.function.Function;
+import lombok.extern.slf4j.Slf4j;
+import lombok.val;
+import org.cardanofoundation.util.Hashing;
+import org.junit.jupiter.api.Test;
+
+@Slf4j
 public class MerkleTreeTest {
 
-    @Test
-    public void testEmptyTree1() {
-        val mt = MerkleTree.createFromHashes(List.of());
+  @Test
+  public void testCreateEmptyTree1() {
+    val mt = MerkleTree.createFromItems(List.of(), fromStringFun());
 
-        assertEquals("", HexFormat.of().formatHex(mt.elementHash()));
-    }
+    assertEquals("", HexFormat.of().formatHex(mt.itemHash()));
+  }
 
-    @Test
-    public void testEmptyTree2() {
-        val mt = MerkleTree.createFromHashes(List.of());
+  @Test
+  public void testCreateEmptyTree2() {
+    val mt = MerkleTree.createFromItems(List.of(), fromStringFun());
 
-        assertTrue(mt instanceof MerkleEmpty);
-    }
+    assertTrue(mt instanceof MerkleEmpty);
+  }
 
-    @Test
-    public void testEmptyTree3() {
-        val mt = new MerkleEmpty();
+  @Test
+  public void testMerkleEmpty() {
+    val mt = new MerkleEmpty();
 
-        assertEquals("", HexFormat.of().formatHex(mt.elementHash()));
-    }
+    assertEquals("", HexFormat.of().formatHex(mt.itemHash()));
+  }
 
-    @Test
-    public void testRootHash1() {
-        val mt = new MerkleLeaf(Hashing.sha2_256("dog"));
+  @Test
+  public void testMerkleLeaf() {
+    val item = "dog";
+    val ml = new MerkleLeaf<>(item, fromStringFun().andThen(Hashing::sha2_256).apply(item));
 
-        assertEquals("cd6357efdd966de8c0cb2f876cc89ec74ce35f0968e11743987084bd42fb8944", HexFormat.of().formatHex(mt.elementHash()));
-    }
+    assertEquals(
+        "cd6357efdd966de8c0cb2f876cc89ec74ce35f0968e11743987084bd42fb8944",
+        HexFormat.of().formatHex(ml.itemHash()));
+  }
 
-    @Test
-    public void testTree1() {
-        val mt = MerkleTree.createFromItems(List.of(
+  @Test
+  public void testTree1() {
+    val mt = MerkleTree.createFromItems(List.of("dog", "cat", "mouse", "horse"), fromStringFun());
+
+    val rootHash = HexFormat.of().formatHex(mt.itemHash());
+
+    assertEquals("bd80e6bec9c2ef6158cf6a74f7f87531e94e0a824b9ba6db28c9a00ba418d452", rootHash);
+  }
+
+  @Test
+  public void testTree2() {
+    val mt =
+        MerkleTree.createFromItems(
+            List.of(
                 "dog",
                 "cat",
                 "mouse",
-                "horse"
-        ), item -> Hashing.sha2_256(item.getBytes(UTF_8)));
+                "horse",
+                "elephant",
+                "wolf",
+                "gopher",
+                "squirrel",
+                "badger",
+                "bobcat",
+                "owl",
+                "bird"),
+            fromStringFun());
 
-        val rootHash = HexFormat.of().formatHex(mt.elementHash());
+    val rootHash = HexFormat.of().formatHex(mt.itemHash());
 
-        assertEquals("bd80e6bec9c2ef6158cf6a74f7f87531e94e0a824b9ba6db28c9a00ba418d452", rootHash);
+    assertEquals("fc84e654aa6f5ca9c72adab1ab2c157298fdefd658f65d7d2231009c4d763ef0", rootHash);
+  }
+
+  @Test
+  public void testBigTreeSize() {
+    val items = new HashSet<String>();
+
+    for (int i = 0; i < 1_000_000; i++) {
+      items.add(UUID.randomUUID().toString());
     }
 
-    @Test
-    public void testTree2() {
-        val mt = MerkleTree.createFromHashes(List.of(
-                Hashing.sha2_256("dog"),
-                Hashing.sha2_256("cat"),
-                Hashing.sha2_256("mouse"),
-                Hashing.sha2_256("horse"),
-                Hashing.sha2_256("elephant")
-        ));
+    val startTime = System.currentTimeMillis();
 
-        val rootHash = HexFormat.of().formatHex(mt.elementHash());
+    val mt = MerkleTree.createFromItems(List.ofAll(items), fromStringFun());
 
-        assertEquals("00e3bd2c9df3e934f51d8bc96b6d985aaab5bf1624a7fcdb90a8eba592417531", rootHash);
+    val endTime = System.currentTimeMillis();
 
-//        // 71d7b98d321250239376b794e9a92afb347d15175274be5a017fcf316dc3a23a
-//        assertEquals("42d71045cb757da525712753c5a757985bdf6e94ed0c225f08ef79cc9e6f26b8", rootHash);
+    val time = (endTime - startTime);
+
+    log.info("That took " + time + " milliseconds on average.");
+
+    assertEquals(items.size(), mt.size());
+  }
+
+  @Test
+  public void testMerkleProof1() {
+    val mt = MerkleTree.createFromItems(List.of("dog", "cat", "mouse"), fromStringFun());
+
+    val item = "mouse";
+
+    val proof = MerkleTree.getProof(mt, item, fromStringFun());
+
+    assertEquals(2, proof.orElseThrow().size());
+    val hash1 = proof.orElseThrow().get(0).hash();
+    val hash2 = proof.orElseThrow().get(1).hash();
+
+    assertEquals(
+        "77af778b51abd4a3c51c5ddd97204a9c3ae614ebccb75a606c3b6865aed6744e",
+        HexFormat.of().formatHex(hash1));
+    assertEquals(
+        "cd6357efdd966de8c0cb2f876cc89ec74ce35f0968e11743987084bd42fb8944",
+        HexFormat.of().formatHex(hash2));
+  }
+
+  @Test
+  public void testMerkleProof2() {
+    val mt = MerkleTree.createFromItems(List.of("dog", "cat", "mouse"), fromStringFun());
+
+    val item = "mouse";
+
+    val proof = MerkleTree.getProof(mt, item, fromStringFun());
+
+    assertTrue(proof.isPresent());
+
+    val root = mt.itemHash();
+
+    assertTrue(MerkleTree.verifyProof(root, item, proof.orElseThrow(), fromStringFun()));
+  }
+
+  @Test
+  public void testMerkleProof3() {
+    val mt = MerkleTree.createFromItems(List.of("dog"), fromStringFun());
+
+    val item = "dog";
+
+    val proof = MerkleTree.getProof(mt, item, fromStringFun());
+
+    assertTrue(proof.isPresent());
+
+    val root = mt.itemHash();
+
+    assertTrue(MerkleTree.verifyProof(root, item, proof.orElseThrow(), fromStringFun()));
+  }
+
+  @Test
+  public void testMerkleProof4() {
+    val mt = MerkleTree.createFromItems(List.of("dog", "cat", "mouse", "horse"), fromStringFun());
+
+    val item = "horse";
+
+    val proof = MerkleTree.getProof(mt, item, fromStringFun());
+
+    assertTrue(proof.isPresent());
+
+    val root = mt.itemHash();
+
+    assertTrue(MerkleTree.verifyProof(root, item, proof.orElseThrow(), fromStringFun()));
+  }
+
+  @Test
+  public void testMerkleProof5() {
+    val mt =
+        MerkleTree.createFromItems(
+            List.of("dog", "cat", "mouse", "horse", "pig", "bull"), fromStringFun());
+
+    val item = "pig";
+
+    val proof = MerkleTree.getProof(mt, item, fromStringFun());
+
+    assertTrue(proof.isPresent(), "proof is available.");
+
+    val root = mt.itemHash();
+
+    assertTrue(
+        MerkleTree.verifyProof(root, item, proof.orElseThrow(), fromStringFun()),
+        "proof verification should match.");
+  }
+
+  @Test
+  public void testMerkleProof6() {
+    java.util.List<String> items = new java.util.ArrayList<>();
+
+    for (int i = 0; i < 1_000_000; i++) {
+      items.add(UUID.randomUUID().toString());
     }
 
-    @Test
-    public void testTree3() {
-        val items = List.of(
-                Hashing.sha2_256("dog"),
-                Hashing.sha2_256("cat"),
-                Hashing.sha2_256("mouse"),
-                Hashing.sha2_256("horse"),
-                Hashing.sha2_256("elephant"),
-                Hashing.sha2_256("wolf"),
-                Hashing.sha2_256("gopher"),
-                Hashing.sha2_256("squirrel"),
-                Hashing.sha2_256("badger"),
-                Hashing.sha2_256("bobcat"),
-                Hashing.sha2_256("owl"),
-                Hashing.sha2_256("bird")
-        );
-        val mtRoot = MerkleTree.createFromHashes(items);
+    var item = randomItem(items).orElseThrow();
 
-        val rootHash = HexFormat.of().formatHex(mtRoot.elementHash());
+    val startTime = System.currentTimeMillis();
 
-        assertEquals("fc84e654aa6f5ca9c72adab1ab2c157298fdefd658f65d7d2231009c4d763ef0", rootHash);
-        assertEquals(items.size(), mtRoot.size());
+    MerkleElement<String> mt = MerkleTree.createFromItems(List.ofAll(items), fromStringFun());
 
-//        // 102bd9546ccaca971a3929212fc9868dc2af5bbd5435610fa2d9a359340bd6a8
-//        assertEquals("17d097548161ff8afa8b6d6f3c6e38d938a0381c9941f5abdeb3a7810b904e01", rootHash);
-    }
+    val proof = MerkleTree.getProof(mt, item, fromStringFun());
+    val rootHash = mt.itemHash();
 
-    @Test
-    public void testTree4() {
-        var items = new HashSet<String>();
+    assertTrue(proof.isPresent(), "proof should be available.");
 
-        val sr = new SecureRandom();
+    assertTrue(
+        MerkleTree.verifyProof(rootHash, item, proof.orElseThrow(), fromStringFun()),
+        "Proof verification should match.");
 
-        for (int i = 0; i < 100_000; i++) {
-            items.add(String.valueOf(sr.nextInt()));
-        }
+    val endTime = System.currentTimeMillis();
 
-        val hashedItems = items.stream()
-                .map(str -> Hashing.sha2_256(str.getBytes(UTF_8)))
-            .toList();
+    val time = (endTime - startTime);
 
-        val startTime = System.currentTimeMillis();
+    log.info("That took " + time + " milliseconds on average.");
 
-        val mt = MerkleTree.createFromHashes(hashedItems);
+    assertEquals(items.size(), mt.size());
+  }
 
-        val endTime = System.currentTimeMillis();
+  private static Function<String, byte[]> fromStringFun() {
+    return str -> str.getBytes(UTF_8);
+  }
 
-        val time = (endTime - startTime);
+  private static <E> Optional<E> randomItem(Collection<E> e) {
 
-        System.out.println("That took " + time + " milliseconds on average for.");
-
-        assertEquals(hashedItems.size(), mt.size());
-    }
-
+    return e.stream().skip((int) (e.size() * Math.random())).findFirst();
+  }
 }

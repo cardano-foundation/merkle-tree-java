@@ -1,37 +1,51 @@
 package org.cardanofoundation.merkle;
 
-public interface MerkleElement {
+public interface MerkleElement<T> {
 
-    // TODO this can look nicer with java switch statement from JDK 18
-    default byte[] elementHash() {
-        if (this instanceof MerkleEmpty) {
-            return new byte [] { };
-        }
+  default boolean isEmpty() {
+    return this instanceof MerkleEmpty;
+  }
 
-        if (this instanceof MerkleLeaf ml) {
-            return ml.getHash();
-        }
-        if (this instanceof MerkleNode mn) {
-            return mn.getHash();
-        }
-
-        throw new IllegalStateException("Unexpected value:" + this.getClass().getName());
+  default byte[] itemHash() {
+    if (this instanceof MerkleEmpty) {
+      return new byte[] {};
     }
 
-    // TODO this can look nicer with java switch statement from JDK 18
-    default int size() {
-        if (this instanceof MerkleEmpty) {
-            return 0;
-        }
-
-        if (this instanceof MerkleLeaf ml) {
-            return 1;
-        }
-        if (this instanceof MerkleNode mn) {
-            return mn.getLeft().size() + mn.getRight().size();
-        }
-
-        throw new IllegalStateException("Unexpected value:" + this.getClass().getName());
+    if (this instanceof MerkleLeaf<T> ml) {
+      return ml.getItemHash();
+    }
+    if (this instanceof MerkleNode<T> mn) {
+      return mn.getHash();
     }
 
+    throw new IllegalStateException("Unexpected value!");
+  }
+
+  default T item() {
+    if (this instanceof MerkleEmpty) {
+      return null;
+    }
+
+    if (this instanceof MerkleLeaf<T> ml) {
+      return ml.item();
+    }
+
+    throw new IllegalStateException("Unexpected value!");
+  }
+
+  default int size() {
+    if (this instanceof MerkleEmpty) {
+      return 0;
+    }
+
+    if (this instanceof MerkleLeaf<?> ml) {
+      return 1;
+    }
+
+    if (this instanceof MerkleNode<T> mn) {
+      return mn.getLeft().size() + mn.getRight().size();
+    }
+
+    throw new IllegalStateException("Unexpected value!");
+  }
 }

@@ -8,9 +8,9 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 @Constr(alternative = 1)
-public class MerkleLeaf implements MerkleElement {
+public class MerkleLeaf<T> implements MerkleElement<T> {
 
-    @PlutusField
-    private byte[] hash;
+  @PlutusField private T item;
 
+  @PlutusField private byte[] itemHash;
 }
