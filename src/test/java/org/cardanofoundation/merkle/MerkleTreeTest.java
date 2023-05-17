@@ -1,8 +1,7 @@
 package org.cardanofoundation.merkle;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 import io.vavr.collection.List;
 import java.util.*;
@@ -182,6 +181,32 @@ public class MerkleTreeTest {
     assertTrue(
         MerkleTree.verifyProof(root, item, proof.orElseThrow(), fromStringFun()),
         "proof verification should match.");
+  }
+
+  @Test
+  public void testMerkleToList1() {
+    val originalList = List.of("dog", "cat", "mouse", "horse", "pig", "bull", "beaver");
+
+    val mt = MerkleTree.fromList(originalList, fromStringFun());
+
+    val items = MerkleTree.toList(mt);
+
+    assertArrayEquals(items.toJavaArray(), originalList.toJavaArray());
+  }
+
+  @Test
+  public void testMerkleToList2() {
+    val originalList = new ArrayList<String>();
+
+    for (int i = 0; i < 1_000_000; i++) {
+      originalList.add(UUID.randomUUID().toString());
+    }
+
+    val mt = MerkleTree.fromList(List.ofAll(originalList), fromStringFun());
+
+    val items = MerkleTree.toList(mt);
+
+    assertArrayEquals(items.toJavaArray(), originalList.toArray());
   }
 
   @Test

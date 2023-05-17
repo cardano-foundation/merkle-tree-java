@@ -134,4 +134,33 @@ public class MerkleTree<T> {
 
     throw new IllegalStateException("Unexpected value.");
   }
+
+  /**
+   * Returns the original items stored in the list as list.
+   *
+   * @param root - Merkle Root element
+   * @return - list of original elements (before hashing)
+   * @param <T> -  user defined type backing this list
+   */
+  public static <T> List<T> toList(MerkleElement<T> root) {
+    return doGetList(root, List.empty());
+  }
+
+  private static <T> List<T> doGetList(MerkleElement<T> element, List<T> acc) {
+    if (element instanceof MerkleEmpty<?>) {
+      return acc;
+    }
+    if (element instanceof MerkleNode<T> mn) {
+      val goLeft = doGetList(mn.getLeft(), acc);
+      val goRight = doGetList(mn.getRight(), acc);
+
+      return goLeft.appendAll(goRight);
+    }
+
+    if (element instanceof MerkleLeaf<T> ml) {
+      return acc.append(ml.getItem());
+    }
+
+    throw new IllegalStateException("Unexpected value.");
+  }
 }
