@@ -80,7 +80,3 @@ Root Hash: bd80e6bec9c2ef6158cf6a74f7f87531e94e0a824b9ba6db28c9a00ba418d452
 Proof: Optional[List(Left{hash=0x47c5c28cae2574cdf5a194fe7717de68f8276f4bf83e653830925056aeb32a48}, Left{hash=0xd08508c86526cfde6c822b1b841f6d2615af61c94e910b0aeb0aa81d193f4ab5})]
 IsValidProof: true
 ```
-
-## TODO
-- more unit tests
-- publish release to maven central
