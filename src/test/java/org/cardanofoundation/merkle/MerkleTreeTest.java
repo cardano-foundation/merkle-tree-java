@@ -31,7 +31,7 @@ public class MerkleTreeTest {
 
   @Test
   public void testMerkleEmpty() {
-    val mt = new MerkleEmpty();
+    val mt = new MerkleEmpty<>();
 
     assertEquals("", HexFormat.of().formatHex(mt.itemHash()));
   }
