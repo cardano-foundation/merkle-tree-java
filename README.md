@@ -59,34 +59,28 @@ compiled onchain code and endpoint definitions.
 
 ## Example
 ```
-va items = List.of(
-        Hashing.sha2_256("dog"),
-        Hashing.sha2_256("cat"),
-        Hashing.sha2_256("mouse"),
-        Hashing.sha2_256("horse"),
-        Hashing.sha2_256("elephant"),
-        Hashing.sha2_256("wolf"),
-        Hashing.sha2_256("gopher"),
-        Hashing.sha2_256("squirrel"),
-        Hashing.sha2_256("badger"),
-        Hashing.sha2_256("bobcat"),
-        Hashing.sha2_256("owl"),
-        Hashing.sha2_256("bird")
-);
-var mt_root = MerkleTree.createFromHashes(items);
+  MerkleElement<String> mt = MerkleTree.fromList(List.of("dog", "cat", "mouse", "horse"), fromStringFun());
+  byte[] rootHash = mt.itemHash();
+  System.out.println("Root Hash:" + HexFormat.of().formatHex(rootHash));
 
-var rootHash = HexFormat.of().formatHex(mt_root.elementHash());
 
-assertEquals("fc84e654aa6f5ca9c72adab1ab2c157298fdefd658f65d7d2231009c4d763ef0", rootHash);
-assertEquals(items.size(), mt_root.size());
-System.out.println(rootHash);
+  String item = "horse";
 
-// prints out
-//fc84e654aa6f5ca9c72adab1ab2c157298fdefd658f65d7d2231009c4d763ef0
+  Optional<List<ProofItem>> proof = MerkleTree.getProof(mt, item, fromStringFun());
+
+  System.out.println("Proof:" + proof);
+
+  boolean isValid = MerkleTree.verifyProof(rootHash, item, proof.orElseThrow(), fromStringFun());
+
+  System.out.println("IsValidProof:" + isValid);
+```
+prints:
+```
+Root Hash: bd80e6bec9c2ef6158cf6a74f7f87531e94e0a824b9ba6db28c9a00ba418d452
+Proof: Optional[List(Left{hash=0x47c5c28cae2574cdf5a194fe7717de68f8276f4bf83e653830925056aeb32a48}, Left{hash=0xd08508c86526cfde6c822b1b841f6d2615af61c94e910b0aeb0aa81d193f4ab5})]
+IsValidProof: true
 ```
 
 ## TODO
 - more unit tests
-- java docs
 - publish release to maven central
-- CI pipeline for Java and Aiken

@@ -1,7 +1,7 @@
 package org.cardanofoundation.merkle;
 
 import com.bloxbean.cardano.client.plutus.annotation.Constr;
-import lombok.ToString;
+import java.util.HexFormat;
 
 public interface ProofItem {
 
@@ -17,10 +17,9 @@ public interface ProofItem {
   }
 
   @Constr(alternative = 0)
-  @ToString
   class Left implements ProofItem {
 
-    private byte[] hash;
+    private final byte[] hash;
 
     public Left(byte[] hash) {
       this.hash = hash;
@@ -29,12 +28,16 @@ public interface ProofItem {
     public byte[] getHash() {
       return hash;
     }
+
+    @Override
+    public String toString() {
+      return "Left{" + "hash=0x" + HexFormat.of().formatHex(hash) + '}';
+    }
   }
 
   @Constr(alternative = 1)
-  @ToString
   class Right implements ProofItem {
-    private byte[] hash;
+    private final byte[] hash;
 
     public Right(byte[] hash) {
 
@@ -43,6 +46,11 @@ public interface ProofItem {
 
     public byte[] getHash() {
       return hash;
+    }
+
+    @Override
+    public String toString() {
+      return "Left{" + "hash=" + HexFormat.of().formatHex(hash) + '}';
     }
   }
 }

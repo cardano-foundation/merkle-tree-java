@@ -2,19 +2,27 @@ package org.cardanofoundation.merkle;
 
 import com.bloxbean.cardano.client.plutus.annotation.Constr;
 import com.bloxbean.cardano.client.plutus.annotation.PlutusField;
-import lombok.*;
+import java.util.HexFormat;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 @EqualsAndHashCode
-@ToString
 @Getter
 @Setter
 @AllArgsConstructor
 @Constr(alternative = 2)
 public class MerkleNode<T> implements MerkleElement<T> {
 
-  @PlutusField private byte[] hash;
+  @PlutusField private final byte[] hash;
 
-  @PlutusField private MerkleElement<T> left;
+  @PlutusField private final MerkleElement<T> left;
 
-  @PlutusField private MerkleElement<T> right;
+  @PlutusField private final MerkleElement<T> right;
+
+  @Override
+  public String toString() {
+    return "MerkleNode{" + "root_hash=0x" + HexFormat.of().formatHex(hash) + '}';
+  }
 }
