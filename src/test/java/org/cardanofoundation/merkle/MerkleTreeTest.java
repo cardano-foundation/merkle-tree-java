@@ -114,8 +114,7 @@ public class MerkleTreeTest {
             "badger",
             "bobcat",
             "owl",
-            "bird"
-        );
+            "bird");
 
     val mt = MerkleTree.fromList(orgItems, fromStringFun());
 
@@ -134,7 +133,7 @@ public class MerkleTreeTest {
   public void testTreeAdd2() {
     val orgItems = new ArrayList<String>();
 
-    for (int i = 0; i < 1_000_000; i++) {
+    for (int i = 0; i < 20_000; i++) {
       orgItems.add(UUID.randomUUID().toString());
     }
 

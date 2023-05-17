@@ -166,13 +166,14 @@ public class MerkleTree<T> {
 
   /**
    * Adds new item to a Merkle Tree.
-   * <p>
-   * Caution: method is inefficient (works well on small data sets but performs poorly for > 1 mln leafs Merkle Tree)
-   * </p>
+   *
+   * <p>Caution: method is inefficient (works well on small data sets but performs poorly for > 1
+   * mln leafs Merkle Tree)
    *
    * @param root - Merkle Tree root
    * @param item - item to be added
-   * @param serialiserFn - function to serialise a user defined item into a byte-array (should not apply sha2_256 hashing)
+   * @param serialiserFn - function to serialise a user defined item into a byte-array (should not
+   *     apply sha2_256 hashing)
    * @return new Merkle Tree root
    * @param <T> - user defined type backing this list
    */
@@ -185,13 +186,14 @@ public class MerkleTree<T> {
 
   /**
    * Removes an item from a Merkle Tree.
-   * <p>
-   * Caution: method is inefficient (works well on small data sets but performs poorly for > 1 mln leafs Merkle Tree)
-   * </p>
+   *
+   * <p>Caution: method is inefficient (works well on small data sets but performs poorly for > 1
+   * mln leafs Merkle Tree)
    *
    * @param root - Merkle Tree root
    * @param item - item to be removed
-   * @param serialiserFn - function to serialise a user defined item into a byte-array (should not apply sha2_256 hashing)
+   * @param serialiserFn - function to serialise a user defined item into a byte-array (should not
+   *     apply sha2_256 hashing)
    * @return new Merkle Tree root
    * @param <T> - user defined type backing this list
    */
@@ -201,5 +203,4 @@ public class MerkleTree<T> {
 
     return fromList(items.remove(item), serialiserFn);
   }
-
 }
