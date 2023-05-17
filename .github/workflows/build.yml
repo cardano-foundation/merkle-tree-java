@@ -23,14 +23,10 @@ jobs:
       - name: Build with Maven
         run: mvn -B package --file pom.xml
 
-      - uses: Swatinem/rust-cache@v1
+      - uses: aiken-lang/setup-aiken@v0.1.0
         with:
-          cache-on-failure: true
+          version: v1.0.5-alpha
 
-      - name: Install Aiken
-        run: cargo install --git https://github.com/aiken-lang/aiken.git
-
-      - name: Run Aiken check on
+      - name: Aiken check
         working-directory: ./contracts
         run: aiken check
-        shell: bash
