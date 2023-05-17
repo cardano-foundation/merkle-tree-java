@@ -106,7 +106,7 @@ public class MerkleTree<T> {
    *     apply sha2_256 hashing)
    * @return <code>true</code> when a proof is valid for the given item, <code>false</code>
    *     otherwise
-   * @param <T>
+   * @param <T> - user defined type backing this list
    */
   public static <T> boolean verifyProof(
       byte[] rootHash, // merkle root hash
@@ -136,7 +136,7 @@ public class MerkleTree<T> {
   }
 
   /**
-   * Returns the original items stored in the list as list.
+   * Returns the original items stored in the Merkle Tree as list.
    *
    * @param root - Merkle Root element
    * @return - list of original elements (before hashing)
@@ -164,6 +164,18 @@ public class MerkleTree<T> {
     throw new IllegalStateException("Unexpected value.");
   }
 
+  /**
+   * Adds new item to a Merkle Tree.
+   * <p>
+   * Caution: method is inefficient (works well on small data sets but performs poorly for > 1 mln leafs Merkle Tree)
+   * </p>
+   *
+   * @param root - Merkle Tree root
+   * @param item - item to be added
+   * @param serialiserFn - function to serialise a user defined item into a byte-array (should not apply sha2_256 hashing)
+   * @return new Merkle Tree root
+   * @param <T> - user defined type backing this list
+   */
   public static <T> MerkleElement<T> add(
       MerkleElement<T> root, T item, Function<T, byte[]> serialiserFn) {
     val items = MerkleTree.toList(root);
@@ -171,10 +183,23 @@ public class MerkleTree<T> {
     return fromList(items.append(item), serialiserFn);
   }
 
+  /**
+   * Removes an item from a Merkle Tree.
+   * <p>
+   * Caution: method is inefficient (works well on small data sets but performs poorly for > 1 mln leafs Merkle Tree)
+   * </p>
+   *
+   * @param root - Merkle Tree root
+   * @param item - item to be removed
+   * @param serialiserFn - function to serialise a user defined item into a byte-array (should not apply sha2_256 hashing)
+   * @return new Merkle Tree root
+   * @param <T> - user defined type backing this list
+   */
   public static <T> MerkleElement<T> remove(
       MerkleElement<T> root, T item, Function<T, byte[]> serialiserFn) {
     val items = MerkleTree.toList(root);
 
     return fromList(items.remove(item), serialiserFn);
   }
+
 }

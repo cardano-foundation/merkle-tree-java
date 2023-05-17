@@ -114,7 +114,8 @@ public class MerkleTreeTest {
             "badger",
             "bobcat",
             "owl",
-            "bird");
+            "bird"
+        );
 
     val mt = MerkleTree.fromList(orgItems, fromStringFun());
 
@@ -127,6 +128,27 @@ public class MerkleTreeTest {
     assertEquals(
         "b3e09c8895e5b1c0cc3e793d830693f218b8488041c79b7f5d2afc36bad70adb",
         HexFormat.of().formatHex(newRoot.itemHash()));
+  }
+
+  @Test
+  public void testTreeAdd2() {
+    val orgItems = new ArrayList<String>();
+
+    for (int i = 0; i < 1_000_000; i++) {
+      orgItems.add(UUID.randomUUID().toString());
+    }
+
+    val mt = MerkleTree.fromList(List.ofAll(orgItems), fromStringFun());
+
+    val startTime = System.currentTimeMillis();
+
+    val newRoot = MerkleTree.add(mt, UUID.randomUUID().toString(), fromStringFun());
+
+    val endTime = System.currentTimeMillis();
+
+    System.out.println("Time to add item: " + (endTime - startTime) + " ms");
+
+    assertEquals(20_001, MerkleTree.toList(newRoot).size());
   }
 
   @Test
