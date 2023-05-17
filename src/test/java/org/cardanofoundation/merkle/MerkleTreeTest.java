@@ -46,7 +46,7 @@ public class MerkleTreeTest {
   }
 
   @Test
-  public void testTree1() {
+  public void testMerkleTreeFromList1() {
     val mt = MerkleTree.fromList(List.of("dog", "cat", "mouse", "horse"), fromStringFun());
 
     val rootHash = HexFormat.of().formatHex(mt.itemHash());
@@ -55,7 +55,7 @@ public class MerkleTreeTest {
   }
 
   @Test
-  public void testTree2() {
+  public void testMerkleTreeFromList2() {
     val mt =
         MerkleTree.fromList(
             List.of(
@@ -79,7 +79,7 @@ public class MerkleTreeTest {
   }
 
   @Test
-  public void testBigTreeSize() {
+  public void testMerkleTreeFromList3() {
     val items = new HashSet<String>();
 
     for (int i = 0; i < 1_000_000; i++) {
@@ -97,6 +97,67 @@ public class MerkleTreeTest {
     log.info("That took " + time + " milliseconds on average.");
 
     assertEquals(items.size(), mt.size());
+  }
+
+  @Test
+  public void testTreeAdd1() {
+    val orgItems =
+        List.of(
+            "dog",
+            "cat",
+            "mouse",
+            "horse",
+            "elephant",
+            "wolf",
+            "gopher",
+            "squirrel",
+            "badger",
+            "bobcat",
+            "owl",
+            "bird");
+
+    val mt = MerkleTree.fromList(orgItems, fromStringFun());
+
+    assertEquals(
+        "fc84e654aa6f5ca9c72adab1ab2c157298fdefd658f65d7d2231009c4d763ef0",
+        HexFormat.of().formatHex(mt.itemHash()));
+
+    val newRoot = MerkleTree.add(mt, "beaver", fromStringFun());
+
+    assertEquals(
+        "b3e09c8895e5b1c0cc3e793d830693f218b8488041c79b7f5d2afc36bad70adb",
+        HexFormat.of().formatHex(newRoot.itemHash()));
+  }
+
+  @Test
+  public void testTreeRemove1() {
+    val orgItems =
+        List.of(
+            "dog",
+            "cat",
+            "mouse",
+            "horse",
+            "elephant",
+            "wolf",
+            "gopher",
+            "squirrel",
+            "badger",
+            "bobcat",
+            "owl",
+            "bird");
+
+    val mt = MerkleTree.fromList(orgItems, fromStringFun());
+
+    assertEquals(
+        "fc84e654aa6f5ca9c72adab1ab2c157298fdefd658f65d7d2231009c4d763ef0",
+        HexFormat.of().formatHex(mt.itemHash()));
+
+    val newRoot = MerkleTree.remove(mt, "squirrel", fromStringFun());
+
+    assertEquals(
+        "a0c289d6c072d83703aeac30c0d99d513dad04a8225381939d8471189b8a522b",
+        HexFormat.of().formatHex(newRoot.itemHash()));
+    assertEquals(11, MerkleTree.toList(newRoot).size());
   }
 
   @Test

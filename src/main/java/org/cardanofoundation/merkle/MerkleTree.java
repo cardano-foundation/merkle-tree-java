@@ -140,7 +140,7 @@ public class MerkleTree<T> {
    *
    * @param root - Merkle Root element
    * @return - list of original elements (before hashing)
-   * @param <T> -  user defined type backing this list
+   * @param <T> - user defined type backing this list
    */
   public static <T> List<T> toList(MerkleElement<T> root) {
     return doGetList(root, List.empty());
@@ -162,5 +162,19 @@ public class MerkleTree<T> {
     }
 
     throw new IllegalStateException("Unexpected value.");
+  }
+
+  public static <T> MerkleElement<T> add(
+      MerkleElement<T> root, T item, Function<T, byte[]> serialiserFn) {
+    val items = MerkleTree.toList(root);
+
+    return fromList(items.append(item), serialiserFn);
+  }
+
+  public static <T> MerkleElement<T> remove(
+      MerkleElement<T> root, T item, Function<T, byte[]> serialiserFn) {
+    val items = MerkleTree.toList(root);
+
+    return fromList(items.remove(item), serialiserFn);
   }
 }
