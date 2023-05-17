@@ -17,14 +17,14 @@ public class MerkleTreeTest {
 
   @Test
   public void testCreateEmptyTree1() {
-    val mt = MerkleTree.createFromItems(List.of(), fromStringFun());
+    val mt = MerkleTree.fromList(List.of(), fromStringFun());
 
     assertEquals("", HexFormat.of().formatHex(mt.itemHash()));
   }
 
   @Test
   public void testCreateEmptyTree2() {
-    val mt = MerkleTree.createFromItems(List.of(), fromStringFun());
+    val mt = MerkleTree.fromList(List.of(), fromStringFun());
 
     assertTrue(mt instanceof MerkleEmpty);
   }
@@ -48,7 +48,7 @@ public class MerkleTreeTest {
 
   @Test
   public void testTree1() {
-    val mt = MerkleTree.createFromItems(List.of("dog", "cat", "mouse", "horse"), fromStringFun());
+    val mt = MerkleTree.fromList(List.of("dog", "cat", "mouse", "horse"), fromStringFun());
 
     val rootHash = HexFormat.of().formatHex(mt.itemHash());
 
@@ -58,7 +58,7 @@ public class MerkleTreeTest {
   @Test
   public void testTree2() {
     val mt =
-        MerkleTree.createFromItems(
+        MerkleTree.fromList(
             List.of(
                 "dog",
                 "cat",
@@ -89,7 +89,7 @@ public class MerkleTreeTest {
 
     val startTime = System.currentTimeMillis();
 
-    val mt = MerkleTree.createFromItems(List.ofAll(items), fromStringFun());
+    val mt = MerkleTree.fromList(List.ofAll(items), fromStringFun());
 
     val endTime = System.currentTimeMillis();
 
@@ -102,7 +102,7 @@ public class MerkleTreeTest {
 
   @Test
   public void testMerkleProof1() {
-    val mt = MerkleTree.createFromItems(List.of("dog", "cat", "mouse"), fromStringFun());
+    val mt = MerkleTree.fromList(List.of("dog", "cat", "mouse"), fromStringFun());
 
     val item = "mouse";
 
@@ -122,7 +122,7 @@ public class MerkleTreeTest {
 
   @Test
   public void testMerkleProof2() {
-    val mt = MerkleTree.createFromItems(List.of("dog", "cat", "mouse"), fromStringFun());
+    val mt = MerkleTree.fromList(List.of("dog", "cat", "mouse"), fromStringFun());
 
     val item = "mouse";
 
@@ -137,7 +137,7 @@ public class MerkleTreeTest {
 
   @Test
   public void testMerkleProof3() {
-    val mt = MerkleTree.createFromItems(List.of("dog"), fromStringFun());
+    val mt = MerkleTree.fromList(List.of("dog"), fromStringFun());
 
     val item = "dog";
 
@@ -152,7 +152,7 @@ public class MerkleTreeTest {
 
   @Test
   public void testMerkleProof4() {
-    val mt = MerkleTree.createFromItems(List.of("dog", "cat", "mouse", "horse"), fromStringFun());
+    val mt = MerkleTree.fromList(List.of("dog", "cat", "mouse", "horse"), fromStringFun());
 
     val item = "horse";
 
@@ -168,7 +168,7 @@ public class MerkleTreeTest {
   @Test
   public void testMerkleProof5() {
     val mt =
-        MerkleTree.createFromItems(
+        MerkleTree.fromList(
             List.of("dog", "cat", "mouse", "horse", "pig", "bull"), fromStringFun());
 
     val item = "pig";
@@ -196,7 +196,7 @@ public class MerkleTreeTest {
 
     val startTime = System.currentTimeMillis();
 
-    MerkleElement<String> mt = MerkleTree.createFromItems(List.ofAll(items), fromStringFun());
+    MerkleElement<String> mt = MerkleTree.fromList(List.ofAll(items), fromStringFun());
 
     val proof = MerkleTree.getProof(mt, item, fromStringFun());
     val rootHash = mt.itemHash();

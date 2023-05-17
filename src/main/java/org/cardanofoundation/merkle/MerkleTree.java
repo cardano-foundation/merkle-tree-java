@@ -11,16 +11,28 @@ import java.util.function.Function;
 import lombok.val;
 import org.cardanofoundation.util.Hashing;
 
-/** Sha256_2 backed merkle tree */
+/**
+ * Merkle Tree implementation using sha2_256 hashing function. The unique thing about this
+ * implementation is that it is compatible with on-chain code written in Aiken.
+ *
+ * @param <T> - user defined type backing this Merkle Tree
+ */
 public class MerkleTree<T> {
 
-  public static <T> MerkleElement<T> createFromItems(
-      List<T> items, Function<T, byte[]> serialiserFn) {
-    return doFrom(items, serialiserFn, items.size());
+  /**
+   * Create a Merkle Tree from a list of elements.
+   *
+   * @param items - original items to construct merkle list from
+   * @param serialiserFn - function to serialise a user defined item into a byte-array (should not
+   *     apply sha2_256 hashing)
+   * @return - Merkle Tree
+   * @param <T> - user defined type backing this Merkle Tree
+   */
+  public static <T> MerkleElement<T> fromList(List<T> items, Function<T, byte[]> serialiserFn) {
+    return doFromList(items, serialiserFn, items.size());
   }
 
-  // TODO this can look nicer when JDK supports pattern matching on lists
-  private static <T> MerkleElement<T> doFrom(
+  private static <T> MerkleElement<T> doFromList(
       List<T> items, Function<T, byte[]> serialiserFn, int len) {
     if (items.isEmpty()) {
       return MerkleEmpty.create();
@@ -33,14 +45,24 @@ public class MerkleTree<T> {
     }
 
     val cutOff = len / 2;
-    val left = doFrom(items.subSequence(0, cutOff), serialiserFn, cutOff);
-    val right = doFrom(items.subSequence(cutOff, items.size()), serialiserFn, (len - cutOff));
+    val left = doFromList(items.subSequence(0, cutOff), serialiserFn, cutOff);
+    val right = doFromList(items.subSequence(cutOff, items.size()), serialiserFn, (len - cutOff));
 
     val hash = Hashing.combineHash(left.itemHash(), right.itemHash());
 
     return new MerkleNode<T>(hash, left, right);
   }
 
+  /**
+   * Get a proof for this Merkle Tree based on a provided user defined item.
+   *
+   * @param root - Merkle Tree (root node)
+   * @param item - user defined item to be checked
+   * @param serialiserFn - function to serialise a user defined item into a byte-array (should not
+   *     apply sha2_256 hashing)
+   * @return - Merkle Proof for this particular item
+   * @param <T> - user defined type backing this Merkle Proof
+   */
   public static <T> Optional<List<ProofItem>> getProof(
       MerkleElement<T> root, T item, Function<T, byte[]> serialiserFn) {
     return doGetProof(root, sha2_256(serialiserFn.apply(item)), List.empty());
@@ -74,6 +96,18 @@ public class MerkleTree<T> {
     throw new IllegalStateException("Unexpected value.");
   }
 
+  /**
+   * Verifies the provided proof against root hash of the tree.
+   *
+   * @param rootHash - Merkle Tree hash
+   * @param item - item to be verified for presence
+   * @param proof - previously generated Merkle Proof (notice that empty list is also a valid proof)
+   * @param serialiserFn - function to serialise a user defined item into a byte-array (should not
+   *     apply sha2_256 hashing)
+   * @return <code>true</code> when a proof is valid for the given item, <code>false</code>
+   *     otherwise
+   * @param <T>
+   */
   public static <T> boolean verifyProof(
       byte[] rootHash, // merkle root hash
       T item,
