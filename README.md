@@ -2,6 +2,7 @@
 
 This is an **incubating** project to implement Plutus compatible Merkle Tree implementation in java and compatible contract equivalent written in Aiken (https://aiken-lang.org/).
 
+[![Build](https://github.com/cardano-foundation/merkle-tree-java/actions/workflows/build.yml/badge.svg)](https://github.com/cardano-foundation/merkle-tree-java/actions/workflows/build.yml)
 [![License](https://img.shields.io:/github/license/cardano-foundation/merkle-tree-java?label=license)](https://github.com/cardano-foundation/merkle-tree-java/blob/master/LICENSE)
 
 ## Why and what is this?
@@ -19,9 +20,9 @@ If you are looking for Plutus / Haskell implementation of Merkle Tree we recomme
 which can be accessed at: https://github.com/input-output-hk/hydra/blame/master/plutus-merkle-tree/src/Plutus/MerkleTree.hs
 
 ## Requirements
-- JDK17
-- maven3
-- Aiken
+- JDK (>= 17)
+- maven (>= 3)
+- Aiken (>= 1.0.5-alpha)
 
 ## Cloning
 git clone https://github.com/cardano-foundation/merkle-tree-java
