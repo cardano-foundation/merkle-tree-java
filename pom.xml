@@ -4,7 +4,7 @@
 
     <groupId>org.cardanofoundation</groupId>
     <artifactId>merkle-tree-java</artifactId>
-    <version>0.0.4</version>
+    <version>0.0.5-SNAPSHOT</version>
     <name>${project.groupId}:${project.artifactId}</name>
     <description>Merkle Tree Java</description>
     <url>https://github.com/cardano-foundation/merkle-tree-java</url>
@@ -234,7 +234,7 @@
         <connection>scm:git:git@github.com:${git.repository}.git</connection>
         <developerConnection>scm:git:https://github.com/${git.repository}.git</developerConnection>
         <url>https://github.com/${git.repository}/tree/main</url>
-        <tag>0.0.4</tag>
+        <tag>HEAD</tag>
     </scm>
 
 </project>
