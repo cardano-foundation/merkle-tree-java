@@ -50,7 +50,7 @@ public interface ProofItem {
 
     @Override
     public String toString() {
-      return "Left{" + "hash=" + HexFormat.of().formatHex(hash) + '}';
+      return "Right{" + "hash=" + HexFormat.of().formatHex(hash) + '}';
     }
   }
 }
