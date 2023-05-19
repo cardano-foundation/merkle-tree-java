@@ -3,9 +3,10 @@ name: Publish To Maven
 on:
   release:
     types: [published]
-  push:
-    branches:
-      - main
+#  push:
+#    branches:
+#      - main
+
 jobs:
   publish:
     timeout-minutes: 30
