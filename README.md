@@ -5,19 +5,19 @@ This is an **incubating** project to implement Plutus compatible Merkle Tree imp
 [![Build](https://github.com/cardano-foundation/merkle-tree-java/actions/workflows/build.yml/badge.svg)](https://github.com/cardano-foundation/merkle-tree-java/actions/workflows/build.yml)
 [![License](https://img.shields.io:/github/license/cardano-foundation/merkle-tree-java?label=license)](https://github.com/cardano-foundation/merkle-tree-java/blob/master/LICENSE)
 
-## Why and what is this?
+## Motivation
 Merkle Trees are a cryptographic commitment scheme based on hashes. This particular implementation uses sha2_256 algorithm.
 Merkle Trees are useful when we need to attest validity of something based on having only a small proof as well as cases
 where we need to check whether dataset has not been tampered with (via root merkle hash verification).
 
-Please note that various Merkle Tree implementations can produce differently looking trees which can have
-different merkle node and root hashes, this implementation's goal is to have on-chain contract and off-chain part
-in exact synchrony. Needless to say note that insertion order of elements into the tree plays
-a role in the final merkle root hash as well as intermediate elements.
-
-Offchain part of the Merkle Tree is written in Java and on-chain part is written in Aiken (https://aiken-lang.org).
+In this project, offchain part of the Merkle Tree is written in Java and on-chain part is written in Aiken (https://aiken-lang.org).
 If you are looking for Plutus / Haskell implementation of Merkle Tree we recommend to look at: Hydra's implementation,
 which can be accessed at: https://github.com/input-output-hk/hydra/blame/master/plutus-merkle-tree/src/Plutus/MerkleTree.hs
+
+Please note that various Merkle Tree implementations can produce differently looking trees which can have
+different merkle node and root hashes, this implementation's goal is to have on-chain contract and off-chain part
+in exact synchrony. Needless to say, insertion order of elements into the tree plays
+a role in the final merkle root hash as well as intermediate elements (nodes).
 
 ## Requirements
 - JDK (>= 17)
