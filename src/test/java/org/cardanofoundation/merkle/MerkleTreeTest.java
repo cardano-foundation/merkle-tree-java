@@ -1,15 +1,16 @@
 package org.cardanofoundation.merkle;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.junit.jupiter.api.Assertions.*;
-
 import io.vavr.collection.List;
-import java.util.*;
-import java.util.function.Function;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.cardanofoundation.util.Hashing;
 import org.junit.jupiter.api.Test;
+
+import java.util.*;
+import java.util.function.Function;
+
+import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.junit.jupiter.api.Assertions.*;
 
 @Slf4j
 public class MerkleTreeTest {
@@ -19,6 +20,7 @@ public class MerkleTreeTest {
     val mt = MerkleTree.fromList(List.of(), fromStringFun());
 
     assertEquals("", HexFormat.of().formatHex(mt.itemHash()));
+    assertTrue(MerkleTree.isEmpty(mt));
   }
 
   @Test
@@ -26,6 +28,15 @@ public class MerkleTreeTest {
     val mt = MerkleTree.fromList(List.of(), fromStringFun());
 
     assertTrue(mt instanceof MerkleEmpty);
+    assertTrue(MerkleTree.isEmpty(mt));
+  }
+
+  @Test
+  public void testCreateEmptyTree3() {
+    val mt = MerkleTree.fromList(List.of("dog"), fromStringFun());
+
+    assertFalse(mt instanceof MerkleEmpty);
+    assertFalse(MerkleTree.isEmpty(mt));
   }
 
   @Test
@@ -33,6 +44,7 @@ public class MerkleTreeTest {
     val mt = new MerkleEmpty<>();
 
     assertEquals("", HexFormat.of().formatHex(mt.itemHash()));
+    assertTrue(MerkleTree.isEmpty(mt));
   }
 
   @Test

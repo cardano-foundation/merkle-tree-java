@@ -20,7 +20,18 @@ import org.cardanofoundation.util.Hashing;
 public class MerkleTree<T> {
 
   /**
-   * Create a Merkle Tree from a list of elements.
+   * Checks whether given merkle tree is empty or not
+   *
+   * @param root - Merkle Tree (root node)
+   * @return - true if empty, false otherwise
+   * @param <T> - user defined type backing this Merkle Tree
+   */
+  public static <T> boolean isEmpty(MerkleElement<T> root) {
+    return root instanceof MerkleEmpty;
+  }
+
+  /**
+   * Create a Merkle Tree from a list of elements (using vavr list).
    *
    * @param items - original items to construct merkle list from
    * @param serialiserFn - function to serialise a user defined item into a byte-array (should not
@@ -30,6 +41,20 @@ public class MerkleTree<T> {
    */
   public static <T> MerkleElement<T> fromList(List<T> items, Function<T, byte[]> serialiserFn) {
     return doFromList(items, serialiserFn, items.size());
+  }
+
+  /**
+   * Create a Merkle Tree from a list of elements (using java.util list).
+   *
+   * @param items - original items to construct merkle list from
+   * @param serialiserFn - function to serialise a user defined item into a byte-array (should not
+   *     apply sha2_256 hashing)
+   * @return - Merkle Tree
+   * @param <T> - user defined type backing this Merkle Tree
+   */
+  public static <T> MerkleElement<T> fromList(
+      java.util.List<T> items, Function<T, byte[]> serialiserFn) {
+    return doFromList(List.ofAll(items.stream()), serialiserFn, items.size());
   }
 
   private static <T> MerkleElement<T> doFromList(
