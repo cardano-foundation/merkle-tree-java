@@ -4,6 +4,7 @@ This is an **incubating** project to implement Plutus compatible Merkle Tree imp
 
 [![Build](https://github.com/cardano-foundation/merkle-tree-java/actions/workflows/build.yml/badge.svg)](https://github.com/cardano-foundation/merkle-tree-java/actions/workflows/build.yml)
 [![License](https://img.shields.io:/github/license/cardano-foundation/merkle-tree-java?label=license)](https://github.com/cardano-foundation/merkle-tree-java/blob/master/LICENSE)
+![Discord](https://img.shields.io/discord/1022471509173882950)
 
 ## Motivation
 Merkle Trees are a cryptographic commitment scheme based on hashes. This particular implementation uses sha2_256 algorithm.
