@@ -54,7 +54,8 @@ public class MerkleTree<T> {
    */
   public static <T> MerkleElement<T> fromList(
       java.util.List<T> items, Function<T, byte[]> serialiserFn) {
-    return doFromList(List.ofAll(items.stream()), serialiserFn, items.size());
+
+    return doFromList(List.ofAll(items), serialiserFn, items.size());
   }
 
   private static <T> MerkleElement<T> doFromList(

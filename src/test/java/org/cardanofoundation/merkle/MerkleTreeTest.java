@@ -1,16 +1,15 @@
 package org.cardanofoundation.merkle;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.junit.jupiter.api.Assertions.*;
+
 import io.vavr.collection.List;
+import java.util.*;
+import java.util.function.Function;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.cardanofoundation.util.Hashing;
 import org.junit.jupiter.api.Test;
-
-import java.util.*;
-import java.util.function.Function;
-
-import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.junit.jupiter.api.Assertions.*;
 
 @Slf4j
 public class MerkleTreeTest {
@@ -145,7 +144,7 @@ public class MerkleTreeTest {
   public void testTreeAdd2() {
     val orgItems = new ArrayList<String>();
 
-    for (int i = 0; i < 20_000; i++) {
+    for (int i = 0; i < 1_000_000; i++) {
       orgItems.add(UUID.randomUUID().toString());
     }
 
@@ -159,7 +158,7 @@ public class MerkleTreeTest {
 
     System.out.println("Time to add item: " + (endTime - startTime) + " ms");
 
-    assertEquals(20_001, MerkleTree.toList(newRoot).size());
+    assertEquals(1_000_001, MerkleTree.toList(newRoot).size());
   }
 
   @Test
@@ -278,33 +277,22 @@ public class MerkleTreeTest {
   }
 
   @Test
-  public void testMerkleToList1() {
-    val originalList = List.of("dog", "cat", "mouse", "horse", "pig", "bull", "beaver");
-
-    val mt = MerkleTree.fromList(originalList, fromStringFun());
-
-    val items = MerkleTree.toList(mt);
-
-    assertArrayEquals(items.toJavaArray(), originalList.toJavaArray());
-  }
-
-  @Test
-  public void testMerkleToList2() {
-    val originalList = new ArrayList<String>();
-
-    for (int i = 0; i < 1_000_000; i++) {
-      originalList.add(UUID.randomUUID().toString());
-    }
-
-    val mt = MerkleTree.fromList(List.ofAll(originalList), fromStringFun());
-
-    val items = MerkleTree.toList(mt);
-
-    assertArrayEquals(items.toJavaArray(), originalList.toArray());
-  }
-
-  @Test
   public void testMerkleProof6() {
+    val mt = MerkleTree.fromList(List.of("dog"), fromStringFun());
+
+    val item = "dog";
+
+    val proof = MerkleTree.getProof(mt, item, fromStringFun());
+
+    assertTrue(proof.isPresent());
+
+    val root = mt.itemHash();
+
+    assertTrue(MerkleTree.verifyProof(root, item, proof.orElseThrow(), fromStringFun()));
+  }
+
+  @Test
+  public void testMerkleProof7() {
     java.util.List<String> items = new java.util.ArrayList<>();
 
     for (int i = 0; i < 1_000_000; i++) {
@@ -333,6 +321,56 @@ public class MerkleTreeTest {
     log.info("That took " + time + " milliseconds on average.");
 
     assertEquals(items.size(), mt.size());
+  }
+
+  @Test
+  public void testMerkleProof8() {
+    val mt = MerkleTree.fromList(List.of("dog", "mouse", "beaver"), fromStringFun());
+
+    val item = "horse";
+
+    val proof = MerkleTree.getProof(mt, item, fromStringFun());
+
+    assertFalse(proof.isPresent());
+  }
+
+  @Test
+  public void testMerkleProof9() {
+    val mt = MerkleTree.fromList(List.of("dog"), fromStringFun());
+
+    val item = "dog";
+
+    val proof = MerkleTree.getProof(mt, item, fromStringFun());
+
+    assertTrue(proof.isPresent());
+    var items = proof.orElseThrow();
+    assertEquals(0, items.size());
+  }
+
+  @Test
+  public void testMerkleToList1() {
+    val originalList = List.of("dog", "cat", "mouse", "horse", "pig", "bull", "beaver");
+
+    val mt = MerkleTree.fromList(originalList, fromStringFun());
+
+    val items = MerkleTree.toList(mt);
+
+    assertArrayEquals(items.toJavaArray(), originalList.toJavaArray());
+  }
+
+  @Test
+  public void testMerkleToList2() {
+    val originalList = new ArrayList<String>();
+
+    for (int i = 0; i < 1_000_000; i++) {
+      originalList.add(UUID.randomUUID().toString());
+    }
+
+    val mt = MerkleTree.fromList(List.ofAll(originalList), fromStringFun());
+
+    val items = MerkleTree.toList(mt);
+
+    assertArrayEquals(items.toJavaArray(), originalList.toArray());
   }
 
   private static Function<String, byte[]> fromStringFun() {
