@@ -402,7 +402,8 @@ public class MerkleTreeTest {
             root2,
             "beaver",
             proof2.orElseThrow(),
-            fromStringFun())); // this is fine and works correct
+            fromStringFun())
+    );
   }
 
   private static Function<String, byte[]> fromStringFun() {
