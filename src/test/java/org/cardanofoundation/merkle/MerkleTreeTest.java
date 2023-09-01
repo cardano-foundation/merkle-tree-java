@@ -360,6 +360,17 @@ public class MerkleTreeTest {
 
   @Test
   public void testMerkleToList2() {
+    val originalList = List.of("", "", "", "", "", "", "");
+
+    val mt = MerkleTree.fromList(originalList, fromStringFun());
+
+    val items = MerkleTree.toList(mt);
+
+    assertArrayEquals(items.toJavaArray(), originalList.toJavaArray());
+  }
+
+  @Test
+  public void testMerkleToList3() {
     val originalList = new ArrayList<String>();
 
     for (int i = 0; i < 1_000_000; i++) {
@@ -371,6 +382,27 @@ public class MerkleTreeTest {
     val items = MerkleTree.toList(mt);
 
     assertArrayEquals(items.toJavaArray(), originalList.toArray());
+  }
+
+  @Test
+  public void testSparseMerkleProofAndVerify() {
+    val items1 = List.of("", "", "", "", "", "", "");
+
+    val mt1 = MerkleTree.fromList(items1, fromStringFun());
+    val root1 = mt1.itemHash();
+
+    val items2 = List.of("", "", "", "", "", "", "beaver");
+    var mt2 = MerkleTree.fromList(items2, fromStringFun());
+    val root2 = mt2.itemHash();
+
+    var proof2 = MerkleTree.getProof(mt2, "beaver", fromStringFun());
+
+    assertTrue(
+        MerkleTree.verifyProof(
+            root2,
+            "beaver",
+            proof2.orElseThrow(),
+            fromStringFun())); // this is fine and works correct
   }
 
   private static Function<String, byte[]> fromStringFun() {
