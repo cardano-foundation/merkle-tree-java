@@ -1,6 +1,6 @@
 # Merkle Tree implementation in Java / Aiken
 
-This is an **incubating** project to implement Plutus compatible Merkle Tree implementation in java and compatible contract equivalent written in Aiken (https://aiken-lang.org/).
+This is project that implements Merkle Tree in Java and compatible contract equivalent written in Aiken (https://aiken-lang.org/).
 
 [![Build](https://github.com/cardano-foundation/merkle-tree-java/actions/workflows/build.yml/badge.svg)](https://github.com/cardano-foundation/merkle-tree-java/actions/workflows/build.yml)
 [![License](https://img.shields.io:/github/license/cardano-foundation/merkle-tree-java?label=license)](https://github.com/cardano-foundation/merkle-tree-java/blob/master/LICENSE)
