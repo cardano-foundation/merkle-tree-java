@@ -4,7 +4,7 @@
 
     <groupId>org.cardanofoundation</groupId>
     <artifactId>merkle-tree-java</artifactId>
-    <version>0.0.7-SNAPSHOT</version>
+    <version>0.0.7</version>
     <name>${project.groupId}:${project.artifactId}</name>
     <description>Merkle Tree Java</description>
     <url>https://github.com/cardano-foundation/merkle-tree-java</url>
