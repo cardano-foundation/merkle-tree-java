@@ -414,4 +414,5 @@ public class MerkleTreeTest {
 
     return e.stream().skip((int) (e.size() * Math.random())).findFirst();
   }
+
 }
