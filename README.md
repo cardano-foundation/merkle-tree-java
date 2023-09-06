@@ -58,6 +58,12 @@ command will give a warning with the following message:
 because there are no on-chain validators in this contract. Even though plutus.json will be generated, it will not have
 compiled onchain code and endpoint definitions.
 
+## Additional Docs
+- [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
+- [SECURITY.md](SECURITY.md)
+- [CONTRIBUTING.md](CONTRIBUTING.md)
+- [CHANGELOG.md](CHANGELOG.md)
+
 ## Example
 ```
   MerkleElement<String> mt = MerkleTree.fromList(List.of("dog", "cat", "mouse", "horse"), fromStringFun());
