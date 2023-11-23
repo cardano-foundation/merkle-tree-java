@@ -35,6 +35,20 @@ cd merkle-tree-java
 mvn clean install
 ```
 
+## Maven / Gradle
+Maven:
+```xml
+<dependency>
+    <groupId>org.cardanofoundation</groupId>
+    <artifactId>merkle-tree-java</artifactId>
+    <version>0.0.7</version>
+</dependency>
+```
+Gradle:
+```
+implementation("org.cardanofoundation:merkle-tree-java:0.0.7")
+```
+
 ## Contracts Building
 Cardano's Aiken on chain contracts are located in `contracts` directory.
 
